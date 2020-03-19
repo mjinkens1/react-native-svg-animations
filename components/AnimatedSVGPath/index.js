@@ -18,35 +18,37 @@ const { height, width } = Dimensions.get('window');
 class AnimatedSVGPath extends Component {
   static propTypes = {
     d: PropTypes.string.isRequired,
-    strokeColor: PropTypes.string,
-    strokeWidth: PropTypes.number,
-    strokeLinecap: PropTypes.string,
-    easing: PropTypes.any,
-    duration: PropTypes.number,
-    height: PropTypes.number,
     delay: PropTypes.number,
-    width: PropTypes.number,
-    scale: PropTypes.number,
+    duration: PropTypes.number,
+    easing: PropTypes.any,
     fill: PropTypes.string,
+    height: PropTypes.number,
+    initialOffset: PropTypes.number,
     loop: PropTypes.bool,
-    transform: PropTypes.string,
     reverse: PropTypes.bool
+    scale: PropTypes.number,
+    strokeColor: PropTypes.string,
+    strokeLinecap: PropTypes.string,
+    strokeWidth: PropTypes.number,
+    transform: PropTypes.string,
+    width: PropTypes.number,
   };
   
   static defaultProps = {
-    strokeColor: "black",
-    strokeWidth: 1,
-    strokeLinecap: "butt",
-    easing: Easing.easeInOut,
-    duration: 1000,
     delay: 1000,
+    duration: 1000,
+    easing: Easing.easeInOut,
     fill: "none",
-    scale: 1,
     height,
-    width,
+    initialOffset: 0.75,
     loop: true,
-    transform: "",
     reverse: false
+    scale: 1,
+    strokeColor: "black",
+    strokeLinecap: "butt",
+    strokeWidth: 1,
+    transform: "",
+    width,
   };
   
   constructor(props) {
@@ -54,7 +56,11 @@ class AnimatedSVGPath extends Component {
     const { d, reverse } = this.props;
     const properties = svgPathProperties(d)
     this.length = properties.getTotalLength();
-    this.strokeDashoffset = new Animated.Value(!reverse ? this.length : 0);
+    this.strokeDashoffset = new Animated.Value(
+        !reverse
+          ? this.length * initialOffset
+          : 0 + this.length * (1 - initialOffset)
+      );
   }
 
   animate = () => {
@@ -65,7 +71,11 @@ class AnimatedSVGPath extends Component {
       easing = 'linear',
       reverse,
     } = this.props;
-    this.strokeDashoffset.setValue(!reverse ? this.length : 0);
+    this.strokeDashoffset = new Animated.Value(
+        !reverse
+          ? this.length * initialOffset
+          : 0 + this.length * (1 - initialOffset)
+      );
     Animated.sequence([
       Animated.delay(delay),
       Animated.timing(this.strokeDashoffset, {
