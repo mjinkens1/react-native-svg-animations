@@ -1,15 +1,7 @@
-import React, {
-  PureComponent, Component,
-} from 'react';
+import React, { PureComponent, Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Animated,
-  Dimensions,
-  Easing,
-} from 'react-native';
-import {
-  svgPathProperties,
-} from 'svg-path-properties';
+import { Animated, Dimensions, Easing } from 'react-native';
+import { svgPathProperties } from 'svg-path-properties';
 
 import Path from '../AnimatedSVG';
 
@@ -30,39 +22,33 @@ class AnimatedSvgPaths extends Component {
     transform: PropTypes.string,
     reverse: PropTypes.bool
   };
-  
+
   static defaultProps = {
-    strokeColor: "black",
+    strokeColor: 'black',
     strokeWidth: 1,
-    strokeLinecap: "butt",
+    strokeLinecap: 'butt',
     easing: Easing.easeInOut,
     duration: 1000,
     delay: 1000,
-    fill: "none",
+    fill: 'none',
     scale: 1,
     height,
     width,
     loop: true,
-    transform: "",
+    transform: '',
     reverse: false
   };
-  
+
   constructor(props) {
     super(props);
     const { d, reverse } = this.props;
-    const properties = svgPathProperties(d)
+    const properties = svgPathProperties(d);
     this.length = properties.getTotalLength();
     this.strokeDashoffset = new Animated.Value(!reverse ? this.length : 0);
   }
-  
+
   animate = () => {
-    const {
-      delay,
-      duration,
-      loop,
-      easing,
-      reverse,
-    } = this.props;
+    const { delay, duration, loop, easing, reverse } = this.props;
     this.strokeDashoffset.setValue(!reverse ? this.length : 0);
     Animated.sequence([
       Animated.delay(delay),
@@ -77,12 +63,12 @@ class AnimatedSvgPaths extends Component {
         this.animate();
       }
     });
-  }
+  };
 
   componentDidMount() {
     this.animate();
   }
-  
+
   render() {
     const {
       d,
@@ -93,7 +79,7 @@ class AnimatedSvgPaths extends Component {
       strokeColor,
       strokeWidth,
       strokeLinecap,
-      transform,
+      transform
     } = this.props;
     return (
       <Path
@@ -115,5 +101,5 @@ class AnimatedSvgPaths extends Component {
 
 module.exports = AnimatedSvgPaths;
 module.exports.details = {
-  title: 'AnimatedSvgPaths',
+  title: 'AnimatedSvgPaths'
 };

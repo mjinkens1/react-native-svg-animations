@@ -1,15 +1,8 @@
-import React, {
-  PureComponent, Component,
-} from 'react';
+import React, { PureComponent, Component } from 'react';
 import PropTypes from 'prop-types';
 import Svg from 'react-native-svg';
-import {
-  Animated,
-  Dimensions,
-} from 'react-native';
-import {
-  svgPathProperties,
-} from 'svg-path-properties';
+import { Animated, Dimensions } from 'react-native';
+import { svgPathProperties } from 'svg-path-properties';
 
 import Path from '../AnimatedPath';
 
@@ -27,22 +20,22 @@ class AnimatedSVGPaths extends Component {
     fill: PropTypes.string,
     loop: PropTypes.bool
   };
-  
+
   static defaultProps = {
-    strokeColor: "black",
+    strokeColor: 'black',
     strokeWidth: 1,
     duration: 1000,
     delay: 1000,
-    fill: "none",
+    fill: 'none',
     scale: 1,
     height,
-    width,
+    width
   };
-  
+
   constructor(props) {
     super(props);
   }
-  
+
   render() {
     const {
       ds,
@@ -54,7 +47,7 @@ class AnimatedSVGPaths extends Component {
       strokeWidth,
       duration,
       delay,
-      loop,
+      loop
     } = this.props;
 
     const svgPaths = ds.map((d, index) => {
@@ -74,10 +67,7 @@ class AnimatedSVGPaths extends Component {
     });
 
     return (
-      <Svg
-        height={(height * scale) + 5}
-        width={(width * scale) + 5}
-      >
+      <Svg height={height * scale + 5} width={width * scale + 5}>
         {svgPaths}
       </Svg>
     );
@@ -88,5 +78,5 @@ class AnimatedSVGPaths extends Component {
 
 module.exports = AnimatedSVGPaths;
 module.exports.details = {
-  title: 'AnimatedSVGPaths',
+  title: 'AnimatedSVGPaths'
 };
